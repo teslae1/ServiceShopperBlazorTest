@@ -10,6 +10,7 @@ namespace ServiceShopperBlazorTest.Client.Services
         {
             this.client = client;
             client.AddRequestInterceptor<ApiKeyService>();
+            client.AddRequestInterceptor<MoliriTenantService>();
         }
 
         public void DoMiddlewareCall()

@@ -13,7 +13,7 @@ namespace ServiceShopperBlazorTest.Client.MiddlewareRequestAssigment
         private List<IHttpRequestInterceptor> interceptors = new List<IHttpRequestInterceptor>();
         public IHttpRequestInterceptor GetInterceptorByClassName(string id)
         {
-            var interceptor = interceptors.FirstOrDefault(i => i.GetType().Name == id);
+            var interceptor = interceptors.FirstOrDefault(i => i.GetType().Name.ToLower() == id.ToLower());
             if (interceptor == null)
             {
                 interceptor = CreateNewInstanceOfClass(id);
