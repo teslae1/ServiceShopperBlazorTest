@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using ServiceShopperBlazorTest.Shared.MiddlewareRequestAssigment;
+using ServiceShopperBlazorTest.Client.MiddlewareRequestAssigment;
 
 namespace ServiceShopperBlazorTest.Client.Middlewares
 {
@@ -12,17 +9,18 @@ namespace ServiceShopperBlazorTest.Client.Middlewares
     public class CustomMiddleware
     {
         private readonly RequestDelegate _next;
-        HttpRequestAssigmentExecutioner assignmentExecutioner;
+        HttpRequestInterceptionExecuter requestInterceptor;
 
-        public CustomMiddleware(RequestDelegate next, HttpRequestAssigmentExecutioner assigmentExecutioner)
+        public CustomMiddleware(RequestDelegate next, HttpRequestInterceptionExecuter requestInterceptor)
         {
             _next = next;
-            this.assignmentExecutioner = assignmentExecutioner;
+            this.requestInterceptor = requestInterceptor;
         }
 
         public Task Invoke(HttpContext httpContext)
         {
-            assignmentExecutioner.ExecuteAllAssigments(ref httpContext);
+            requestInterceptor.ExecuteAllInterceptions(ref httpContext);
+            var apiKey = httpContext.Request.Headers["moliriApiKey"];
             return _next(httpContext);
         }
     }

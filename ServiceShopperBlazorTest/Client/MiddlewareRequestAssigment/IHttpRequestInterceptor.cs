@@ -2,8 +2,8 @@
 
 namespace ServiceShopperBlazorTest.Client.MiddlewareRequestAssigment
 {
-    public interface IExecutableService
+    public interface IHttpRequestInterceptor
     {
-        public void Execute(ref HttpContext context);
+        public void OnRequestInterception(ref HttpContext context);
     }
 }

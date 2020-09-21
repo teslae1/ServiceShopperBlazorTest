@@ -3,26 +3,20 @@ using ServiceShopperBlazorTest.Client.MiddlewareRequestAssigment;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace ServiceShopperBlazorTest.Client.Services
 {
-    public class  ApiKeyService : IHttpRequestInterceptor
+    public class MoliriTenantService : IHttpRequestInterceptor
     {
-        public ApiKeyService(HttpClient client)
-        {
-
-        }
-
         public void OnRequestInterception(ref HttpContext context)
         {
-            context.Request.Headers.Add("moliriApiKey", GetCurrentKey());
+            context.Request.Headers.Add("moliriTenantPassword", GetData());
         }
 
-        string GetCurrentKey()
+        string GetData()
         {
-            return "1234";
+            return "moliriTenantData";
         }
     }
 }

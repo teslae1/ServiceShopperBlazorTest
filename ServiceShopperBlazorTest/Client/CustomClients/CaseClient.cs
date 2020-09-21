@@ -1,4 +1,4 @@
-﻿using ServiceShopperBlazorTest.Shared.MiddlewareRequestAssigment;
+﻿using ServiceShopperBlazorTest.Client.MiddlewareRequestAssigment;
 using System.Net.Http;
 
 namespace ServiceShopperBlazorTest.Client.Services
@@ -9,7 +9,7 @@ namespace ServiceShopperBlazorTest.Client.Services
         public CaseClient(HttpClient client)
         {
             this.client = client;
-            HttpRequestAssigmentAdder.AddApiKeyAssigment(client);
+            client.AddRequestInterceptor<ApiKeyService>();
         }
 
         public void DoMiddlewareCall()
