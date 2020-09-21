@@ -1,30 +1,32 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ServiceShopperBlazorTest.Client.MiddlewareRequestAssigment
 {
     public class HttpRequestInterceptionExecuter
     {
+        public static readonly string interceptorPreFormatting = "interceptor1";
+        public HttpRequestInterceptionFactory interceptionFactory;
+        public HttpRequestInterceptionExecuter(HttpRequestInterceptionFactory interceptionFactory)
+        {
+            this.interceptionFactory = interceptionFactory;
+        }
         public void ExecuteAllInterceptions(ref HttpContext context)
         {
             var interceptionIds = ExtractAllInterceptionClassNames(ref context);
             foreach (var id in interceptionIds)
-                HttpRequestInterceptorLibrary.GetInterceptorByClassName(id)
+                interceptionFactory.GetInterceptorByClassName(id)
                     .OnRequestInterception(ref context);
         }
 
         List<string> ExtractAllInterceptionClassNames(ref HttpContext context)
         {
-            var names = HttpRequestInterceptorLibrary.GetAllClassNames();
-            var interceptionsExtracted = new List<string>();
-            bool didContainInterception = false;
-            foreach (var name in names)
-            {
-                didContainInterception = context.Request.Headers.Remove(name);
-                if (didContainInterception)
-                    interceptionsExtracted.Add(name);
-            }
-            return interceptionsExtracted;
+            var names = new List<string>();
+            foreach (var header in context.Request.Headers)
+                if (header.Key.Contains(interceptorPreFormatting))
+                    names.Add(header.Key.Substring(interceptorPreFormatting.Length));
+            return names;
         }
     }
 }

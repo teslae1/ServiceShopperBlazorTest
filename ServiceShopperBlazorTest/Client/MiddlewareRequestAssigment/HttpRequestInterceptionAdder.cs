@@ -1,20 +1,16 @@
-﻿using System.Net.Http;
+﻿using ServiceShopperBlazorTest.Client.Services;
+using System;
+using System.Net.Http;
+using System.Runtime.CompilerServices;
 
 namespace ServiceShopperBlazorTest.Client.MiddlewareRequestAssigment
 {
     public static class HttpRequestInterceptionAdder
     {
-        public static void AddRequestInterceptor<T>(this HttpClient client)
+        public static void AddRequestInterceptor<T>(this HttpClient client)where T: IHttpRequestInterceptor
         {
-            ValidateClass<T>();
-            client.DefaultRequestHeaders.Add(typeof(T).Name, "");
+            client.DefaultRequestHeaders.Add(HttpRequestInterceptionExecuter.interceptorPreFormatting + typeof(T).Name, "");
         }
 
-        static void ValidateClass<T>()
-        {
-            if (!HttpRequestInterceptorLibrary.Contains<T>())
-                throw new NoMatchingRequestInterceptorFoundInLibraryException
-                    ("No matching request interceptor was found in interceptorLibrary");
-        }
     }
 }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace ServiceShopperBlazorTest.Client.Services
@@ -12,7 +13,8 @@ namespace ServiceShopperBlazorTest.Client.Services
     {
         public ApiKeyService(HttpClient client)
         {
-
+            if (client == null)
+                throw new Exception("client was null");
         }
 
         public void OnRequestInterception(ref HttpContext context)

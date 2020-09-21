@@ -24,6 +24,7 @@ namespace ServiceShopperBlazorTest.Server
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddSingleton<HttpRequestInterceptionExecuter, HttpRequestInterceptionExecuter>();
+            services.AddSingleton<HttpRequestInterceptionFactory, HttpRequestInterceptionFactory>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
