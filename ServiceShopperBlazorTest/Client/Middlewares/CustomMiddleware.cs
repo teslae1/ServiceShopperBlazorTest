@@ -21,6 +21,7 @@ namespace ServiceShopperBlazorTest.Client.Middlewares
         {
             requestInterceptor.ExecuteAllInterceptions(ref httpContext);
             var apiKey = httpContext.Request.Headers["moliriApiKey"];
+            var data = httpContext.Request.Headers["interceptor1ApiKeyService"];
             return _next(httpContext);
         }
     }

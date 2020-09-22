@@ -10,6 +10,7 @@ namespace ServiceShopperBlazorTest.Client.MiddlewareRequestAssigment
 {
     public class HttpRequestInterceptionFactory
     {
+        readonly string presumedNamespaceForInterceptor = "ServiceShopperBlazorTest.Client.Services";
         private List<IHttpRequestInterceptor> interceptors = new List<IHttpRequestInterceptor>();
         public IHttpRequestInterceptor GetInterceptorByClassName(string id)
         {
@@ -36,18 +37,25 @@ namespace ServiceShopperBlazorTest.Client.MiddlewareRequestAssigment
 
         Type GetTypeFromStringClassName(string className)
         {
+            var type = Type.GetType(presumedNamespaceForInterceptor + "." + className,false,true);
+            if (type == null)
+                type = GetTypeBySearchingEntireApp(className);
+            return type;
+        }
 
+        Type GetTypeBySearchingEntireApp(string className)
+        {
             return AppDomain.CurrentDomain
-                .GetAssemblies()
-                .SelectMany(x => x.GetTypes())
-                .FirstOrDefault(t => t.Name.ToLower() == className.ToLower());
+              .GetAssemblies()
+              .SelectMany(x => x.GetTypes())
+              .FirstOrDefault(t => t.Name.ToLower() == className.ToLower());
         }
 
         IHttpRequestInterceptor TryGetInstanceParameterLessConstruction(Type type)
         {
             try
             {
-            return (IHttpRequestInterceptor)Activator.CreateInstance(type);
+                return (IHttpRequestInterceptor)Activator.CreateInstance(type);
             }
             catch
             {
@@ -59,7 +67,7 @@ namespace ServiceShopperBlazorTest.Client.MiddlewareRequestAssigment
         {
             try
             {
-            return (IHttpRequestInterceptor)Activator.CreateInstance(type, new HttpClient());
+                return (IHttpRequestInterceptor)Activator.CreateInstance(type, new HttpClient());
             }
             catch
             {

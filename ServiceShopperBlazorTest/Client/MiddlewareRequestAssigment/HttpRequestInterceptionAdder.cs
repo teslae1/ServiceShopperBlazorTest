@@ -9,7 +9,7 @@ namespace ServiceShopperBlazorTest.Client.MiddlewareRequestAssigment
     {
         public static void AddRequestInterceptor<T>(this HttpClient client)where T: IHttpRequestInterceptor
         {
-            client.DefaultRequestHeaders.Add(HttpRequestInterceptionExecuter.interceptorPreFormatting + typeof(T).Name, "");
+            client.DefaultRequestHeaders.Add(HttpRequestInterceptionExecuter.interceptorPreFormatting + typeof(T).Name, "f");
         }
 
     }
