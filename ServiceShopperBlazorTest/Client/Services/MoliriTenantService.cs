@@ -16,7 +16,7 @@ namespace ServiceShopperBlazorTest.Client.Services
 
         string GetData()
         {
-            return "MoliriDreng";
+            return "Herkommerdernogetdataframoliri";
         }
     }
 }

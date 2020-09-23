@@ -1,16 +1,15 @@
 ﻿using ServiceShopperBlazorTest.Client.MiddlewareRequestAssigment;
+using ServiceShopperBlazorTest.Client.Services;
 using System.Net.Http;
 
-namespace ServiceShopperBlazorTest.Client.Services
+namespace ServiceShopperBlazorTest.Client.CustomClients
 {
-    public class CaseClient
+    public class ItemClient
     {
         HttpClient client;
-        public CaseClient(HttpClient client)
+        public ItemClient(HttpClient client)
         {
             this.client = client;
-            client.AddRequestInterceptor<ApiKeyService>();
-            client.AddRequestInterceptor<MoliriTenantService>();
         }
 
         public void DoMiddlewareCall()
